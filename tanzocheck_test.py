@@ -55,7 +55,7 @@ def comando_help(bot, update):
 		bot.sendMessage(update.message.chat_id, help_text)
 		return
 		
-updater = Updater(token='138682670:AAGpVS2brpdVCpJ872ZGl5sbe9KQbFUjAZQ')
+updater = Updater(token='')
 dispatcher = updater.dispatcher
 dispatcher.addTelegramMessageHandler(messaggi_in_arrivo)
 dispatcher.addTelegramCommandHandler("start",comando_start)
