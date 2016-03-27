@@ -6,9 +6,11 @@ from telegram import Updater
 import logging
 import telegram
 import os
+#Libreria per fare la richiesta http
+import urllib.request
 
 #Definisco le variabili globali
-calc=[]
+mioip=[]
 numero1 = 0
 numero2 = 0
 operazione = []
@@ -29,40 +31,40 @@ logger = logging.getLogger(__name__)
 # Definisco la funzione che viene chiamata quando arrivano dei messaggi
 def messaggi_in_arrivo(bot, update):
 	#Imposto l'uso delle variabili globali
-	global calc
+	global mioip
 	global numero1
 	global numero2
 	global operazione
 	
 	#Ciclo che imposta la variabile per controllare il processo
-	if calc==1: #se la variabile è 1 vuol dire che è stato immesso il primo valore quindi lo metto in memoria e chiedo di selezionare l'operazione e incremento la variabile
+	if mioip==1: #se la variabile è 1 vuol dire che è stato immesso il primo valore quindi lo metto in memoria e chiedo di selezionare l'operazione e incremento la variabile
 		numero1 = float(update.message.text)
-		calc=2
+		mioip=2
 		bot.sendMessage(update.message.chat_id, "Scegli il tipo di operazione", reply_markup=menu_keyboard)
-	if calc==2: #se la variabile è 2 vuol dire che ho immesso l'operazione quindi vado a capire quale operazione è stata richiesta, imposto la nuova variabile di conseguenza e incremento la variabile di controllo di +1
+	if mioip==2: #se la variabile è 2 vuol dire che ho immesso l'operazione quindi vado a capire quale operazione è stata richiesta, imposto la nuova variabile di conseguenza e incremento la variabile di controllo di +1
 		if update.message.text=="-":
-			calc=3
+			mioip=3
 			operazione=0
 			bot.sendMessage(update.message.chat_id, "hai chiesto la sottrazione!!")
 		elif update.message.text=="+":
-			calc=3
+			mioip=3
 			operazione=1
 			bot.sendMessage(update.message.chat_id, "hai chiesto la somma!!")
 		elif update.message.text=="*":
-			calc=3
+			mioip=3
 			operazione=2
 			bot.sendMessage(update.message.chat_id, "hai chiesto la moltiplicazione!!")
 		elif update.message.text==":":
-			calc=3
+			mioip=3
 			operazione=3
 			bot.sendMessage(update.message.chat_id, "hai chiesto la divisione!!")
-	if calc==3:
+	if mioip==3:
 		text = "Scrivi il secondo numero"
 		bot.sendMessage(update.message.chat_id, text)
-		calc=4
-	elif calc==4:
+		mioip=4
+	elif mioip==4:
 		numero2 = float(update.message.text)
-		calc=0
+		mioip=0
 		if operazione==0:
 			risultato = numero1 - numero2
 		elif operazione==1:
@@ -74,20 +76,30 @@ def messaggi_in_arrivo(bot, update):
 		text = "Il risultato e':   %s" % risultato
 		bot.sendMessage(update.message.chat_id, text)
 	return
-
-# Definisco la funzione di chiamata calcolatrice
-def comando_calc(bot, update):
-	global calc
-	calc = 1
-	text= "Inserisci il primo numero"
-	bot.sendMessage(update.message.chat_id, text)
+# Definisco l'help
+def comando_help(bot, update):
+	help_text = (
+	"Questi i comandi al momento disponibili:\n"
+	"\n"
+	"/mioip Scopri l'ip pubblico del tuo BOT!!\n"
+	#"/userlist Lista utenti\n"
+	#"/userdel Cancella tutti gli utenti\n"
+	#"/info Informazioni utente\n"
+	)
+	bot.sendMessage(update.message.chat_id, help_text)
+	
+# Definisco la funzione di chiamata mioip
+def comando_mioip(bot, update):
+	my_ip = urllib.urlopen('http://ip.42.pl/raw').read()
+	bot.sendMessage(update.message.chat_id, "L'IP publico del BOT è : " + my_ip)
 
 KEY = os.environ['KEY_MisiBot']
 
 updater = Updater(token=KEY)
 dispatcher = updater.dispatcher
 dispatcher.addTelegramMessageHandler(messaggi_in_arrivo)
-dispatcher.addTelegramCommandHandler("calc",comando_calc)
+dispatcher.addTelegramCommandHandler("help",comando_help)
+dispatcher.addTelegramCommandHandler("mioip",comando_mioip)
 updater.start_polling()
 updater.idle()
 
