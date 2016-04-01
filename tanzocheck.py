@@ -1,6 +1,6 @@
 # Semplice classe per il controllo degli accessi
 # verso un Bot Telegram
-# Sergio Tanzilli - sergio@tanzilli.com - @SergioTanzilli
+# kSergio Tanzilli - sergio@tanzilli.com - @SergioTanzilli
 
 import random
 import json
