@@ -190,7 +190,7 @@ def comando_calc(bot, update):
 		return
 
 
-updater = Updater(token='138682670:AAGpVS2brpdVCpJ872ZGl5sbe9KQbFUjAZQ')
+updater = Updater(token='')
 dispatcher = updater.dispatcher
 dispatcher.addTelegramMessageHandler(messaggi_in_arrivo)
 dispatcher.addTelegramCommandHandler("start",comando_start)
