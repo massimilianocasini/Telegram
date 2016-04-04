@@ -2,7 +2,7 @@
 # -*- coding: iso-8859-15 -*-
 #Prova d'uso del modulo tanzocheck.py
 
-from telegram import Updater
+from telegram.ext import Updater
 import logging
 import telegram
 import os
