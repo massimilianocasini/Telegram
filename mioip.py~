@@ -90,7 +90,7 @@ def comando_help(bot, update):
 	
 # Definisco la funzione di chiamata mioip
 def comando_mioip(bot, update):
-	my_ip = urllib2.urlopen('http://ip.42.pl/raw').read()
+	my_ip = urllib.urlopen('http://ip.42.pl/raw').read()
 	bot.sendMessage(update.message.chat_id, "L'IP publico del BOT è : " + my_ip)
 
 #KEY = os.environ['KEY_MisiBot']
