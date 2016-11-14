@@ -1,4 +1,4 @@
-def stampa(Valore):
+ def stampa(Valore):
   print Valore, Valore
 stampa("bello")
 
